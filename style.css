@@ -33,6 +33,12 @@ body {
   cursor: pointer;
 }
 
+.show-modal:focus-visible,
+.close-modal:focus-visible {
+  outline: 3px solid #333;
+  outline-offset: 4px;
+}
+
 .close-modal {
   position: absolute;
   top: 1.2rem;
@@ -53,17 +59,10 @@ p {
   font-size: 1.8rem;
 }
 
-/* -------------------------- */
-/* CLASSES TO MAKE MODAL WORK */
-.hidden {
-  display: none;
-}
-
 .modal {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   width: 70%;
 
   background-color: white;
@@ -71,6 +70,20 @@ p {
   border-radius: 5px;
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
   z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -50%) scale(0.95);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease,
+    visibility 0s linear 200ms;
+}
+
+.modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+  transition-delay: 0s;
 }
 
 .overlay {
@@ -82,4 +95,22 @@ p {
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(3px);
   z-index: 5;
-}   
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 200ms ease,
+    visibility 0s linear 200ms;
+}
+
+.overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal,
+  .overlay {
+    transition: none;
+  }
+}
